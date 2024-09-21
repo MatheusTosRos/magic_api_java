@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class UsuarioController {
 
-
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -45,7 +44,6 @@ public class UsuarioController {
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         Usuario newUser = new Usuario(data.login(), encryptedPassword, data.role());
-
         this.repository.save(newUser);
 
         return ResponseEntity.ok().build();
