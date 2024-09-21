@@ -32,18 +32,6 @@ public class Card {
     @Setter
     private CardType cardType;
 
-
-
-
-//    public void setCardType(){
-//
-//        if(this.type_line.startsWith("Legendary Creature")){
-//            this.cardType = CardType.COMMANDER;
-//        }else {
-//            this.cardType = CardType.COMMON;
-//        }
-//    }
-
     @Override
     public String toString() {
         return "Card{" +
