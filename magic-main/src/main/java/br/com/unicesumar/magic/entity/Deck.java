@@ -14,6 +14,5 @@ import java.util.List;
 public class Deck {
 
     private Card commander;
-
     private List<Card> cards;
 }

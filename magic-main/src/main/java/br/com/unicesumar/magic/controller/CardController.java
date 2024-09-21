@@ -25,22 +25,15 @@ public class CardController {
 
     @Autowired
     private CardService cardService;
-
     @Autowired
     private CardRepository cardRepository;
-
     @Autowired
     private DeckRepository deckRepository;
-
     private Deck deck;
-
     @GetMapping("/commander")
 
     public ResponseEntity getCommander(@RequestBody Card name, @RequestParam int qntdCard) {
-
         Card retorno = cardService.getCommanderCard(name.getName());
-
-
         if (retorno.getCardType().equals(CardType.COMMANDER)) {
             deck = new Deck();
             this.deck.setCommander(retorno);
@@ -53,9 +46,8 @@ public class CardController {
             return ResponseEntity.ok(retorno);
         }
         retorno.setResponse("Essa carta não pode ser Commander");
+
         return ResponseEntity.badRequest().body(retorno);
-
-
     }
 
     public void saveCardsToFile(Deck deck, String filePath) {
