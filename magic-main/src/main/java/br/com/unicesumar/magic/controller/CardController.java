@@ -29,31 +29,32 @@ public class CardController {
     private CardRepository cardRepository;
     @Autowired
     private DeckRepository deckRepository;
-    private Deck deck;
+
     @GetMapping("/commander")
-    public ResponseEntity getCommander(@RequestBody Card name, @RequestParam int qntdCard) {
-        Card retorno = cardService.getCommanderCard(name.getName());
-        if (retorno.getCardType().equals(CardType.COMMANDER)) {
-            deck = new Deck();
-            this.deck.setCommander(retorno);
-            this.deck.setCards(cardService.getCommonCard(qntdCard, retorno.getColors()));
+    public ResponseEntity getCommander(@RequestBody Card name, @RequestParam int quantidadeCartas) {
+        Card response = cardService.getCommanderCard(name.getName());
 
-            deckRepository.save(this.deck);
-            saveCardsToFile(this.deck, "src/main/resources/deck.json");
-            retorno.setResponse("Carta Adicionada com sucesso");
+        if (response.getCardType().equals(CardType.COMMANDER)) {
+            Deck deck = new Deck();
+            deck.setCommander(response);
+            deck.setCards(cardService.getCommonCard(quantidadeCartas, response.getColors()));
 
-            return ResponseEntity.ok(retorno);
+            deckRepository.save(deck);
+            saveCardsToFile(deck, "src/main/resources/deck.json");
+            response.setResponse("Carta adicionada com sucesso!");
+
+            return ResponseEntity.ok(response);
         }
-        retorno.setResponse("Essa carta não pode ser Commander");
+        response.setResponse("Essa carta não pode ser a comandante!");
 
-        return ResponseEntity.badRequest().body(retorno);
+        return ResponseEntity.badRequest().body(response);
     }
 
     public void saveCardsToFile(Deck deck, String filePath) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.writeValue(new File(filePath), deck);
-            System.out.println("Cartas salvas com sucesso em " + filePath);
+            System.out.println("Cartas salvas com sucesso em " + filePath + "!");
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Erro ao salvar cartas em arquivo JSON");

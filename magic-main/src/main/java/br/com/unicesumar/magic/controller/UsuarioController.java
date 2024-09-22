@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping("/auth")
 public class UsuarioController {
@@ -40,7 +39,9 @@ public class UsuarioController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody  CreateUserDto data){
-        if(this.repository.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
+
+        if(this.repository.findByLogin(data.login()) != null)
+            return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         Usuario newUser = new Usuario(data.login(), encryptedPassword, data.role());
@@ -48,6 +49,4 @@ public class UsuarioController {
 
         return ResponseEntity.ok().build();
     }
-
-    }
-
+}

@@ -10,5 +10,4 @@ import java.util.List;
 public class ScryfallResponse {
     private List<Card> data;
 
-    // Getters and setters
 }
