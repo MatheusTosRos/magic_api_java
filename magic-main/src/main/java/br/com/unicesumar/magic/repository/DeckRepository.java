@@ -10,4 +10,5 @@ import java.util.List;
 public interface DeckRepository extends MongoRepository<Deck, String> {
     @Override
     List<Deck> findAll();
+
 }

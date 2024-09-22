@@ -54,7 +54,7 @@ public class CardService {
             return commonCards;
 
         } catch (HttpClientErrorException.UnprocessableEntity e) {
-          throw  new RuntimeException("cartas insuficientes dessa cor para completar o deck!");
+          throw  new RuntimeException("Cartas insuficientes dessa cor para completar o deck!");
         }
     }
 }

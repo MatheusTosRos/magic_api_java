@@ -7,6 +7,7 @@ import br.com.unicesumar.magic.entity.Usuario;
 import br.com.unicesumar.magic.repository.UsuarioRepository;
 import br.com.unicesumar.magic.service.JwtTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -47,6 +48,6 @@ public class UsuarioController {
         Usuario newUser = new Usuario(data.login(), encryptedPassword, data.role());
         this.repository.save(newUser);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).body("Usuário criado com sucesso!");
     }
 }
