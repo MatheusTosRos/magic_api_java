@@ -57,6 +57,11 @@ public class CardController {
 
     }
 
+    @GetMapping("/send/deck")
+    public void sendDeck() {
+
+    }
+
     public void saveCardsToFile(Deck deck, String filePath) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
