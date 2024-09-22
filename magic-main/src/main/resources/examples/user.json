@@ -1,0 +1,8 @@
+{
+  "_id": {
+    "$oid": "66ef3c7c5a37ba3ac4e926cd"
+  },
+  "login": "user2",
+  "password": "$2a$10$Cv1sxxt1wFjCe/porzRj/.OgS/DFADeSRSxobKh9Tv/BafMcPzQ9K",
+  "_class": "br.com.unicesumar.magic.entity.Usuario"
+}
