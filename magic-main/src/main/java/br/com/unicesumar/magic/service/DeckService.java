@@ -6,26 +6,21 @@ import br.com.unicesumar.magic.entity.Usuario;
 import br.com.unicesumar.magic.enums.UsuarioRole;
 import br.com.unicesumar.magic.repository.DeckRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class DeckService {
 
     @Autowired
-    private Usuario usuario;
-    @Autowired
-    private UsuarioRole usuarioRole;
-    @Autowired
     private DeckRepository deckRepository;
 
+    public List<Deck> listarDecks() {
 
-    public List<Deck> listarDeks() {
-        var papel = usuario.getRole();
-
-        if (papel.equals(usuarioRole)) {
-            return deckRepository.findAll();
-        }
-        return null;
+        return new ArrayList<>();
     }
 
     public void listarDecksUsuarioLogado() {
