@@ -19,16 +19,11 @@ public class Card {
     @Setter
     @Transient
     private String response;
-
     @Id
     private String id;
-
     private String name;
-
     private String type_line;
-
     private List<String> colors;
-
     @Setter
     private CardType cardType;
 

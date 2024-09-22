@@ -19,9 +19,6 @@ public class CardService {
     private final String API_URL_NAMED = "/named?fuzzy=";
     private final String API_URL_CARDS = "/search?q=color:%s&unique=cards&page=";
 
-
-    private List<Card> cards = new ArrayList<>();
-
     public Card getCommanderCard(String name) {
 
         String url = API_URL + API_URL_NAMED + name;

@@ -31,7 +31,6 @@ public class CardController {
     private DeckRepository deckRepository;
     private Deck deck;
     @GetMapping("/commander")
-
     public ResponseEntity getCommander(@RequestBody Card name, @RequestParam int qntdCard) {
         Card retorno = cardService.getCommanderCard(name.getName());
         if (retorno.getCardType().equals(CardType.COMMANDER)) {

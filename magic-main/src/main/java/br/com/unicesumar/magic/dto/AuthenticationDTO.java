@@ -5,5 +5,4 @@ public record AuthenticationDTO(
         String password
 ) {
 
-
 }
