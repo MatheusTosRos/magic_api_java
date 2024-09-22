@@ -22,8 +22,6 @@ public class CardController {
     @Autowired
     private CardService cardService;
     @Autowired
-    private CardRepository cardRepository;
-    @Autowired
     private DeckRepository deckRepository;
 
     @PostMapping("/commander")
@@ -44,22 +42,6 @@ public class CardController {
         response.setResponse("Essa carta não pode ser a comandante!");
 
         return ResponseEntity.badRequest().body(response);
-    }
-
-    @GetMapping("/allDecks")
-    public void listDecks() {
-
-    }
-
-    @GetMapping("/login/userDecks")
-    @Cacheable("cacheAllDecksUserLogged")
-    public void listDecksUserLogged() {
-
-    }
-
-    @GetMapping("/send/deck")
-    public void sendDeck() {
-
     }
 
     public void saveCardsToFile(Deck deck, String filePath) {
