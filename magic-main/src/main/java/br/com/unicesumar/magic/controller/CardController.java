@@ -34,7 +34,7 @@ public class CardController {
             deck.setCards(cardService.getCommonCard(quantidadeCartas, response.getColors()));
 
             deckRepository.save(deck);
-            saveCardsToFile(deck, "src/main/resources/deck.json");
+            saveCardsToFile(deck, "magic-main/src/main/resources/examples/deck.json");
             response.setResponse("Carta adicionada com sucesso!");
 
             return ResponseEntity.ok(response);
