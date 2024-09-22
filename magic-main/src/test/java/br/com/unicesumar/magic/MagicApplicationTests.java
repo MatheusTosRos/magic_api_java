@@ -9,5 +9,4 @@ class MagicApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
