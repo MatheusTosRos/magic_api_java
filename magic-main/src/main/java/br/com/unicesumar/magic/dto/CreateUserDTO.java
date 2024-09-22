@@ -2,7 +2,7 @@ package br.com.unicesumar.magic.dto;
 
 import br.com.unicesumar.magic.enums.UsuarioRole;
 
-public record CreateUserDto(
+public record CreateUserDTO(
 
         String login,
         String password,

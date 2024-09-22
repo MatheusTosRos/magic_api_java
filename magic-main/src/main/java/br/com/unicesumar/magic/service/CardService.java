@@ -33,19 +33,17 @@ public class CardService {
         return commander;
     }
 
-    public List<Card> getCommonCard(int qntdCard, List<String> colors) {
+    public List<Card> getCommonCard(int quantidadeCartas, List<String> colors) {
 
         List<Card> commonCards = new ArrayList<>();
         int page = 1;
         try {
-
-
-            while (commonCards.size() < qntdCard) {
+            while (commonCards.size() < quantidadeCartas) {
                 String url = String.format(API_URL + API_URL_CARDS, String.join(",", colors)) + page;
                 ScryfallResponse response = restTemplate().getForObject(url, ScryfallResponse.class);
                 if (response != null && response.getData() != null) {
                     for (Card card : response.getData()) {
-                        if (commonCards.size() >= qntdCard) {
+                        if (commonCards.size() >= quantidadeCartas) {
                             break;
                         }
                         commonCards.add(card);
@@ -53,12 +51,10 @@ public class CardService {
                 }
                 page++;
             }
-
             return commonCards;
 
-
         } catch (HttpClientErrorException.UnprocessableEntity e) {
-          throw  new RuntimeException("cartas insuficientes dessa cor para completar o deck");
+          throw  new RuntimeException("cartas insuficientes dessa cor para completar o deck!");
         }
     }
 }

@@ -6,15 +6,11 @@ import br.com.unicesumar.magic.enums.CardType;
 import br.com.unicesumar.magic.repository.CardRepository;
 import br.com.unicesumar.magic.repository.DeckRepository;
 import br.com.unicesumar.magic.service.CardService;
-import com.fasterxml.jackson.core.exc.StreamWriteException;
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +26,7 @@ public class CardController {
     @Autowired
     private DeckRepository deckRepository;
 
-    @GetMapping("/commander")
+    @PostMapping("/commander")
     public ResponseEntity getCommander(@RequestBody Card name, @RequestParam int quantidadeCartas) {
         Card response = cardService.getCommanderCard(name.getName());
 
@@ -50,6 +46,17 @@ public class CardController {
         return ResponseEntity.badRequest().body(response);
     }
 
+    @GetMapping("/allDecks")
+    public void listDecks() {
+
+    }
+
+    @GetMapping("/login/userDecks")
+    @Cacheable("cacheAllDecksUserLogged")
+    public void listDecksUserLogged() {
+
+    }
+
     public void saveCardsToFile(Deck deck, String filePath) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -57,7 +64,7 @@ public class CardController {
             System.out.println("Cartas salvas com sucesso em " + filePath + "!");
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Erro ao salvar cartas em arquivo JSON");
+            System.out.println("Erro ao salvar cartas em arquivo JSON!");
         }
     }
 }

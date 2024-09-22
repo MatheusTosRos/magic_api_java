@@ -1,6 +1,6 @@
 package br.com.unicesumar.magic.controller;
 
-import br.com.unicesumar.magic.dto.CreateUserDto;
+import br.com.unicesumar.magic.dto.CreateUserDTO;
 import br.com.unicesumar.magic.dto.AuthenticationDTO;
 import br.com.unicesumar.magic.dto.LoginResponseDTO;
 import br.com.unicesumar.magic.entity.Usuario;
@@ -38,7 +38,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody  CreateUserDto data){
+    public ResponseEntity register(@RequestBody CreateUserDTO data){
 
         if(this.repository.findByLogin(data.login()) != null)
             return ResponseEntity.badRequest().build();
