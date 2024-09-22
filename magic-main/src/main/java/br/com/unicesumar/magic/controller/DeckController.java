@@ -30,10 +30,6 @@ public class DeckController {
     public ResponseEntity listDecks() {
         try {
             List<Deck> decks = deckService.listarDecks();
-            if (decks == null) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body("Usuário não tem permissão para listar os decks.");
-            }
             return ResponseEntity.ok(decks);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

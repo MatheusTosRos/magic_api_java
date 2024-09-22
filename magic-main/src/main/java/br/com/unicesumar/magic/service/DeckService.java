@@ -19,8 +19,7 @@ public class DeckService {
     private DeckRepository deckRepository;
 
     public List<Deck> listarDecks() {
-
-        return new ArrayList<>();
+        return deckRepository.findAll();
     }
 
     public void listarDecksUsuarioLogado() {
