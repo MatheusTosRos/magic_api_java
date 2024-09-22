@@ -32,7 +32,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/card/commander").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/deck/allDecks").hasRole("ADMIN")
                         .anyRequest().authenticated()
-                )
+                ) 
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
