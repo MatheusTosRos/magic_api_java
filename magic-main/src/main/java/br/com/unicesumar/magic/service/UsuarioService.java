@@ -5,6 +5,9 @@ import br.com.unicesumar.magic.enums.UsuarioRole;
 import br.com.unicesumar.magic.repository.UsuarioRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -30,6 +33,19 @@ public class UsuarioService {
             throw new Exception("ID inválido!", e);
         } catch (Exception e) {
             throw new Exception("Erro ao verificar se o usuário é admin!", e);
+        }
+    }
+
+    public Usuario getUsuarioLogado() throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String login = authentication.getName();
+
+        Optional<Usuario> usuario = usuarioRepository.findByLogin(login);
+
+        if (usuario.isPresent()) {
+            return usuario.get();
+        } else {
+            throw new Exception("Usuário não encontrado!");
         }
     }
 }
