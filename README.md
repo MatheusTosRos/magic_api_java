@@ -21,7 +21,7 @@ Esta API permite gerenciar usuários, decks e cartas do jogo Magic: The Gatherin
       {
         "login": "seuLogin",
         "password": "suaSenha",
-        "role": "ADMIN" // ou "USER"
+        "role": "ADMIN" // (caso n tenha role, por padrão o usuário será "USER")
       }
       ```
 
@@ -104,7 +104,6 @@ Esta API permite gerenciar usuários, decks e cartas do jogo Magic: The Gatherin
       ```json
       {
         "name": "NomeDoCommander",
-        "quantidadeCartas": 99
       }
       ```
 
