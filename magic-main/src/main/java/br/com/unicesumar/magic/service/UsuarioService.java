@@ -38,14 +38,14 @@ public class UsuarioService {
 
     public Usuario getUsuarioLogado() throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String login = authentication.getName();
 
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new Exception("Usuário não está autenticado!");
+        }
+
+        String login = authentication.getName();
         Optional<Usuario> usuario = usuarioRepository.findByLogin(login);
 
-        if (usuario.isPresent()) {
-            return usuario.get();
-        } else {
-            throw new Exception("Usuário não encontrado!");
-        }
+        return usuario.orElseThrow(() -> new Exception("Usuário não encontrado!"));
     }
 }
