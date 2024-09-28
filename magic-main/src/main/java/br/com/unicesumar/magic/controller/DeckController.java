@@ -37,7 +37,7 @@ public class DeckController {
 
     @GetMapping("/allDecks")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity listDecks(String usuarioId) {
+    public ResponseEntity<?> listDecks(String usuarioId) {
         try {
             if (!usuarioService.EhAdmin(usuarioId)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário não tem permissão para acessar esta rota!");
@@ -72,6 +72,8 @@ public class DeckController {
             deckService.importarDecks(decks);
 
             return ResponseEntity.status(HttpStatus.CREATED).body("Decks importados com sucesso!");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro de validação: " + e.getMessage());
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao importar o arquivo JSON: " + e.getMessage());
         }

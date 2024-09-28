@@ -25,7 +25,7 @@ public class CardController {
     private DeckRepository deckRepository;
 
     @PostMapping("/commander")
-    public ResponseEntity getCommander(@RequestBody Card name, @RequestParam int quantidadeCartas) {
+    public ResponseEntity<?> getCommander(@RequestBody Card name, @RequestParam int quantidadeCartas) {
         Card response = cardService.getCommanderCard(name.getName());
 
         if (response.getCardType().equals(CardType.COMMANDER)) {

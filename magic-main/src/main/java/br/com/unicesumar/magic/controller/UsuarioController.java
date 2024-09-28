@@ -29,7 +29,7 @@ public class UsuarioController {
     private JwtTokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody AuthenticationDTO data){
+    public ResponseEntity<?> login(@RequestBody AuthenticationDTO data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
@@ -39,9 +39,9 @@ public class UsuarioController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody CreateUserDTO data){
+    public ResponseEntity<?> register(@RequestBody CreateUserDTO data){
 
-        if(this.repository.findByLogin(data.login()) != null)
+        if(this.repository.findByLogin(data.login()).isPresent())
             return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
