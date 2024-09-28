@@ -98,7 +98,7 @@ Esta API permite gerenciar usuários, decks e cartas do jogo Magic: The Gatherin
 
 1. **Adicionar um Comandante ao Deck**
 
-    - **Endpoint**: `POST /card/commander`
+    - **Endpoint**: `POST /card/commander?quantidadeCartas=99`
     - **Descrição**: Adiciona um comandante a um deck existente.
     - **Body** (JSON):
       ```json
