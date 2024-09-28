@@ -56,6 +56,10 @@ public class DeckController {
     public ResponseEntity<?> listDecksUserLogged() {
         try {
             Usuario usuarioLogado = usuarioService.getUsuarioLogado();
+            if (usuarioLogado == null)
+            {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário não encontrado!");
+            }
             List<Deck> decks = deckService.listarDecksUsuario(usuarioLogado);
             return ResponseEntity.ok(decks);
         }
