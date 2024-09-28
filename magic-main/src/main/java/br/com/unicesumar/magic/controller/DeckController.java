@@ -1,9 +1,11 @@
 package br.com.unicesumar.magic.controller;
 
 import br.com.unicesumar.magic.entity.Deck;
+import br.com.unicesumar.magic.enums.UsuarioRole;
 import br.com.unicesumar.magic.repository.DeckRepository;
 import br.com.unicesumar.magic.repository.UsuarioRepository;
 import br.com.unicesumar.magic.service.DeckService;
+import br.com.unicesumar.magic.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -23,20 +25,26 @@ public class DeckController {
     @Autowired
     private DeckService deckService;
     @Autowired
+    private UsuarioService usuarioService;
+    @Autowired
     private DeckRepository deckRepository;
     @Autowired
     private UsuarioRepository usuarioRepository;
+    private UsuarioRole usuarioRole;
 
     @GetMapping("/allDecks")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity listDecks() {
+    public ResponseEntity listDecks(String usuarioId) {
         try {
+            if (!usuarioService.EhAdmin(usuarioId)) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário não tem permissão para acessar esta rota!");
+            }
+
             List<Deck> decks = deckService.listarDecks();
             return ResponseEntity.ok(decks);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Ocorreu um problema ao listar todos os decks! " +
-                            "Verifique se seu usuário é ADMIN! " + e.getMessage());
+                    .body("Ocorreu um problema ao listar todos os decks! " + e.getMessage());
         }
     }
 

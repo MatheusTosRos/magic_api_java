@@ -24,6 +24,7 @@ public class Usuario implements UserDetails {
     private ObjectId id;
     private String login;
     private String password;
+    @Getter
     private UsuarioRole role;
 
     public Usuario(String login, String password, UsuarioRole role){
