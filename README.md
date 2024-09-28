@@ -57,7 +57,7 @@ Esta API permite gerenciar usuários, decks e cartas do jogo Magic: The Gatherin
 
 1. **Listar todos os Decks (Admin)**
 
-    - **Endpoint**: `GET /deck/allDecks`
+    - **Endpoint**: `GET /deck/allDecks/usuarioId='ID DO USUÁRIO'`
     - **Descrição**: Retorna todos os decks cadastrados. Apenas usuários com o papel `ADMIN` têm acesso.
     - **Autenticação**: Adicione o token JWT no cabeçalho da requisição.
         - **Authorization**: `Bearer {seuTokenJWT}`
