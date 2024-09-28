@@ -1,21 +1,23 @@
 package br.com.unicesumar.magic.controller;
 
 import br.com.unicesumar.magic.entity.Deck;
+import br.com.unicesumar.magic.entity.Usuario;
 import br.com.unicesumar.magic.enums.UsuarioRole;
 import br.com.unicesumar.magic.repository.DeckRepository;
 import br.com.unicesumar.magic.repository.UsuarioRepository;
 import br.com.unicesumar.magic.service.DeckService;
 import br.com.unicesumar.magic.service.UsuarioService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -31,6 +33,7 @@ public class DeckController {
     @Autowired
     private UsuarioRepository usuarioRepository;
     private UsuarioRole usuarioRole;
+    private ObjectMapper objectMapper;
 
     @GetMapping("/allDecks")
     @PreAuthorize("hasRole('ADMIN')")
@@ -50,10 +53,11 @@ public class DeckController {
 
     @GetMapping("/login/userDecks")
     @Cacheable("cacheAllDecksUserLogged")
-    public ResponseEntity listDecksUserLogged() {
+    public ResponseEntity<?> listDecksUserLogged() {
         try {
-            deckService.listarDecksUsuarioLogado();
-            return ResponseEntity.status(HttpStatus.OK).build();
+            Usuario usuarioLogado = usuarioService.getUsuarioLogado();
+            List<Deck> decks = deckService.listarDecksUsuario(usuarioLogado);
+            return ResponseEntity.ok(decks);
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não foi possível encontrar o deck do usuário! " + e);
@@ -61,13 +65,15 @@ public class DeckController {
     }
 
     @PostMapping("/send/deck")
-    public ResponseEntity sendDeck() {
+    public ResponseEntity<?> sendDeck(@RequestParam("file") MultipartFile file) {
         try {
-            deckService.importarDecks();
-            return ResponseEntity.status(HttpStatus.CREATED).body("Deck enviado com sucesso!");
-        }
-        catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("O deck enviado está incorreto! " + e);
+            List<Deck> decks = objectMapper.readValue(file.getInputStream(), new TypeReference<List<Deck>>() {});
+
+            deckService.importarDecks(decks);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body("Decks importados com sucesso!");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao importar o arquivo JSON: " + e.getMessage());
         }
     }
 }

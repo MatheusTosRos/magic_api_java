@@ -1,6 +1,7 @@
 package br.com.unicesumar.magic.entity;
 
 import lombok.*;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 @Builder
 @Document(collection = "deck")
 public class Deck {
-
+    private ObjectId usuarioId;
     private String userId;
     private Card commander;
     private List<Card> cards;
