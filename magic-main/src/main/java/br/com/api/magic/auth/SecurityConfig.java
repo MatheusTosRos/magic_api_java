@@ -31,6 +31,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/card/commander").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/deck/allDecks").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/deck/login/userDeck").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/deck/send/deck").permitAll()
                         .anyRequest().authenticated()
                 ) 
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
