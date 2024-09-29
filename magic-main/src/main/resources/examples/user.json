@@ -4,5 +4,5 @@
   },
   "login": "user2",
   "password": "$2a$10$Cv1sxxt1wFjCe/porzRj/.OgS/DFADeSRSxobKh9Tv/BafMcPzQ9K",
-  "_class": "br.com.unicesumar.magic.entity.Usuario"
+  "_class": "br.com.api.magic.entity.Usuario"
 }
