@@ -11,5 +11,5 @@ import java.util.List;
 public interface DeckRepository extends MongoRepository<Deck, String> {
 
     List<Deck> findAll();
-    List<Deck> findByUsuarioId(ObjectId id);
+    List<Deck> findByUsuarioId(String user);
 }

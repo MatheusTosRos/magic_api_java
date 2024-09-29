@@ -55,16 +55,9 @@ public class DeckController {
 
     @GetMapping("/login/userDecks")
     @Cacheable("cacheAllDecksUserLogged")
-    public ResponseEntity<?> listDecksUserLogged() {
+    public ResponseEntity<?> listDecksUserLogged(@RequestHeader String Authorization) {
         try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            Usuario usuarioLogado = (Usuario) authentication.getPrincipal();
-
-            if (usuarioLogado == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário não encontrado!");
-            }
-
-            List<Deck> decks = deckService.listarDecksUsuario(usuarioLogado);
+            List<Deck> decks = deckService.listarDecksUsuario(Authorization);
             return ResponseEntity.ok(decks);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
