@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.IOException;
 import java.util.List;
@@ -55,16 +57,18 @@ public class DeckController {
     @Cacheable("cacheAllDecksUserLogged")
     public ResponseEntity<?> listDecksUserLogged() {
         try {
-            Usuario usuarioLogado = usuarioService.getUsuarioLogado();
-            if (usuarioLogado == null)
-            {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Usuario usuarioLogado = (Usuario) authentication.getPrincipal();
+
+            if (usuarioLogado == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário não encontrado!");
             }
+
             List<Deck> decks = deckService.listarDecksUsuario(usuarioLogado);
             return ResponseEntity.ok(decks);
-        }
-        catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não foi possível encontrar o deck do usuário! " + e);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Não foi possível encontrar o deck do usuário! " + e.getMessage());
         }
     }
 
