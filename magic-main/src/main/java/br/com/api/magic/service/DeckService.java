@@ -1,7 +1,6 @@
 package br.com.api.magic.service;
 
 import br.com.api.magic.entity.Deck;
-import br.com.api.magic.entity.Usuario;
 import br.com.api.magic.repository.DeckRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,10 +20,13 @@ public class DeckService {
     }
 
     public List<Deck> listarDecksUsuario(String usuario) {
-        return deckRepository.findByUsuarioId(this.jwtTokenService.getUserByToken(usuario.replace("Bearer ", "")));
+        return deckRepository.findByUser(this.jwtTokenService.getUserByToken(usuario.replace("Bearer ", "")));
     }
 
-    public void importarDecks(List<Deck> decks) {
-
+    public Deck importarDecks(Deck deck) throws Exception {
+        if (deck == null || deck.getCards() == null || deck.getCommander() == null) {
+            throw new Exception("Deck ou informações do comandante estão incompletas!");
+        }
+        return deckRepository.save(deck);
     }
 }

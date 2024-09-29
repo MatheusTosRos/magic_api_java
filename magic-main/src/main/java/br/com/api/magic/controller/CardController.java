@@ -5,6 +5,7 @@ import br.com.api.magic.entity.Deck;
 import br.com.api.magic.enums.CardType;
 import br.com.api.magic.repository.DeckRepository;
 import br.com.api.magic.service.CardService;
+import br.com.api.magic.service.JwtTokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +23,18 @@ public class CardController {
     @Autowired
     private DeckRepository deckRepository;
 
+    @Autowired
+    private JwtTokenService jwtTokenService;
+
     @PostMapping("/commander")
-    public ResponseEntity<?> getCommander(@RequestBody Card name, @RequestParam int quantidadeCartas) {
+    public ResponseEntity<?> getCommander(@RequestBody Card name, @RequestParam int quantidadeCartas, @RequestHeader String Authorization) {
         Card response = cardService.getCommanderCard(name.getName());
 
         if (response.getCardType().equals(CardType.COMMANDER)) {
             Deck deck = new Deck();
             deck.setCommander(response);
             deck.setCards(cardService.getCommonCard(quantidadeCartas, response.getColors()));
+            deck.setUser(jwtTokenService.validateToken(Authorization.replace("Bearer ","")));
 
             deckRepository.save(deck);
             saveCardsToFile(deck, "magic-main/src/main/resources/examples/deck.json");

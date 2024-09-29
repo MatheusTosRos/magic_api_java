@@ -66,17 +66,16 @@ public class DeckController {
     }
 
     @PostMapping("/send/deck")
-    public ResponseEntity<?> sendDeck(@RequestParam("file") MultipartFile file) {
-        try {
-            List<Deck> decks = objectMapper.readValue(file.getInputStream(), new TypeReference<List<Deck>>() {});
-
-            deckService.importarDecks(decks);
-
-            return ResponseEntity.status(HttpStatus.CREATED).body("Decks importados com sucesso!");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro de validação: " + e.getMessage());
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao importar o arquivo JSON: " + e.getMessage());
-        }
+    public ResponseEntity importDeck(@RequestBody Deck deck) {
+            try {
+                Deck savedDeck = deckService.importarDecks(deck);
+                return ResponseEntity.status(HttpStatus.CREATED).body(savedDeck);
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro de validação: " + e.getMessage());
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao importar o arquivo JSON: " + e.getMessage());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
     }
 }

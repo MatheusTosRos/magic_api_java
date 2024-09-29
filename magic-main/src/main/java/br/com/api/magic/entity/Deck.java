@@ -14,7 +14,7 @@ import java.util.List;
 @Document(collection = "deck")
 public class Deck {
     private ObjectId usuarioId;
-    private String userId;
+    private String user;
     private Card commander;
     private List<Card> cards;
 }
